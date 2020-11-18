@@ -1,0 +1,250 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account" %}{% endblock %}
+
+{% block inner_content %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="color-scheme" content="light dark">
+   <meta name="supported-color-schemes" content="light dark">
+	<title>HTML Email Template Boilerplate</title>
+   <style type="text/css">
+   	@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+      table {
+			border-spacing: 0;
+		}
+      td {
+         padding: 0;
+      }
+      p {
+         font-size: 15px;
+      }
+      img {
+         border: 0;
+      }
+      a {
+         text-decoration: none;
+         color: #e8fbfa;
+         font-size: 16px;
+      }
+      .content {
+         line-height: 20px;
+         font-size: 15px;
+      }
+
+      @media screen and (max-width: 599.98px) {
+         .two-columns .padding {
+            padding-right: 0!important;
+            padding-left: 0!important;
+         }
+         img.two-col-img {
+            width: 300px!important;
+            max-width: 300px!important;
+         }
+         .two-third-columns .padding {
+            padding-right: 0!important;
+            padding-left: 0!important;
+         }
+         .two-third-columns .padding.first {
+            padding-bottom: 0!important;
+         }
+         .two-third-columns .padding.last {
+            padding-top: 0!important;
+         }
+         img.one-third-col-img {
+            width: 200px!important;
+            max-width: 200px!important;
+         }
+         .two-third-columns .content {
+            text-align: center!important;
+         }
+         img.three-col-img-last {
+            width: 200px!important;
+            max-width: 200px!important;
+         }
+         .three-columns .padding {
+            padding-right: 0!important;
+            padding-left: 0!important;
+         }
+      }
+      @media screen and (max-width: 399.98px) {
+         img.three-col-img {
+            width: 200px!important;
+            max-width: 200px!important;
+         }
+      }
+
+      /* Custom Dark Mode Colors */
+      :root {
+         color-scheme: light dark;
+         supported-color-schemes: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+         body, center, table, .darkmode-bg {
+            background: #2d2d2d!important;
+            color: #ffffff!important;
+         }
+         .darkmode-transparent {
+            background-color: transparent!important;
+         }
+      }
+   </style>
+   
+	<!--[if (gte mso 9)|(IE)]>
+		<style type="text/css">
+			table {border-collapse: collapse !important;}
+		</style>
+	<![endif]-->
+	
+</head>
+<body style="Margin:0;padding:0;min-width:100%;background-color:#dde0e1;">
+
+   <!--[if (gte mso 9)|(IE)]>
+      <style type="text/css">
+         body {background-color: #dde0e1!important;}
+         body, table, td, p, a {font-family: sans-serif, Arial, Helvitica!important;}
+      </style>
+   <![endif]-->
+
+   <center style="width: 100%;table-layout:fixed;background-color: #dde0e1;padding-bottom: 40px;">
+      <div style="max-width: 600px;background-color: #fafdfe;box-shadow: 0 0 10px rgba(0, 0, 0, .2);">
+         
+
+         <!-- Preheader (remove comment) -->
+         <div style="font-size: 0px;color: #fafdfe;line-height: 1px;mso-line-height-rule:exactly;display: none;max-width: 0px;max-height: 0px;opacity: 0;overflow: hidden;mso-hide:all;">
+            <!-- Add Preheader Text Here (85-100 characters in length) -->
+         </div>
+         <!-- End Preheader (remove comment) -->
+      
+         <!--[if (gte mso 9)|(IE)]>
+            <table width="600" align="center" style="border-spacing:0;color:#565656;">
+            <tr>
+            <td style="padding:0;">
+         <![endif]-->
+
+         <table align="center" style="border-spacing:0;color:#565656;font-family: 'Lato',sans-serif, Arial, Helvitica;background-color: #fafdfe;Margin:0;padding:0;width: 100%;max-width: 600px;" role="presentation">
+
+
+<!-- START LOGO -->
+            <tr>
+               <td style="padding:0;">
+                  <table width="100%" style="border-spacing:0;" role="presentation">
+
+                     <tr>
+                        <td class="darkmode-bg" style="background-color: #fafdfe;padding: 20px 0 20px 0;text-align: center;">
+                           <a href="" target="_blank">
+                              <img src="img/cassandra.jpeg" alt="Cassandra Logo" title="Cassandra" width="280" border="0">
+                           </a>
+                        </td>
+                     </tr>
+
+                  </table>
+               </td>
+            </tr>
+<!-- END LOGO -->
+
+
+<!-- START FOOTER -->
+            <tr>
+               <td class="darkmode-bg" style="background-color: #565656;padding:0;">
+                  <table width="100%" style="border-spacing: 0;" role="presentation">
+
+                     <tr>
+                        <td style="padding:60px 0 50px 0;color: #ffffff;text-align: center;font-size: 16px;">
+
+                           
+            <h2 class="logo-font mb-4">{% trans "E-mail Addresses" %}</h2>
+
+            {% if user.emailaddress_set.all %}
+            <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
+                                    
+<form action="{% url 'account_email' %}" class="email_list" method="post">
+{% csrf_token %}
+<fieldset class="blockLabels">
+
+  {% for emailaddress in user.emailaddress_set.all %}
+<div class="ctrlHolder">
+      <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+
+      <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+
+{{ emailaddress.email }}
+    {% if emailaddress.verified %}
+    <span class="verified">{% trans "Verified" %}</span>
+    {% else %}
+    <span class="unverified">{% trans "Unverified" %}</span>
+    {% endif %}
+      {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+</label>
+</div>
+  {% endfor %}
+
+<div class="buttonHolder">
+      <button class="secondaryAction" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
+      <button class="secondaryAction" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
+      <button class="primaryAction" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+</div>
+
+</fieldset>
+</form>
+
+{% else %}
+<p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}</p>
+
+{% endif %}
+
+
+    <h2>{% trans "Add E-mail Address" %}</h2>
+
+    <form method="post" action="{% url 'account_email' %}" class="add_email">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+    </form>
+
+{% endblock %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+(function() {
+  var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
+                        
+                        </td>
+                     </tr>
+
+                  </table>
+               </td>
+            </tr>
+<!-- END FOOTER -->
+
+         </table>
+
+         <!--[if (gte mso 9)|(IE)]>
+         </td>
+         </tr>
+         </table>
+         <![endif]-->
+      
+      </div>
+   </center>
+
+</body>
+</html>
+{% endblock %}
